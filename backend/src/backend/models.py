@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import List, Optional
 
+from pydantic import BaseModel
 from sqlmodel import Field, Relationship, SQLModel
 
 
@@ -24,3 +25,25 @@ class Message(SQLModel, table=True):
     conversation: Optional[Conversation] = Relationship(
         back_populates="messages"
     )
+
+
+# Response models for API serialization
+class MessageResponse(BaseModel):
+    id: int
+    conversation_id: int
+    content: str
+    role: str
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class ConversationResponse(BaseModel):
+    id: int
+    title: Optional[str] = None
+    created_at: datetime
+    messages: List[MessageResponse] = []
+
+    class Config:
+        from_attributes = True

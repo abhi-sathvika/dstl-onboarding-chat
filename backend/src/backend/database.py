@@ -1,6 +1,9 @@
 from sqlmodel import Session, SQLModel, create_engine, select
 
-from .models import *  # Import models to ensure they are registered with SQLModel
+from .models import (
+    Conversation,
+    Message,
+)  # Import models to ensure they are registered with SQLModel
 
 sqlite_file_name = "database.db"
 sqlite_url = f"sqlite:///{sqlite_file_name}"
@@ -22,9 +25,7 @@ def seed_db():
         print("No existing conversations found. Seeding database...")
         # Conversation 1: General greeting
         conv1 = Conversation(title="Welcome Chat")
-        msg1_1 = Message(
-            role="user", content="Hello, who are you?", conversation=conv1
-        )
+        msg1_1 = Message(role="user", content="Hello, who are you?", conversation=conv1)
         msg1_2 = Message(
             role="assistant",
             content="I am an AI assistant here to help you with your onboarding.",
